@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node -r ts-node/register src/app.ts",
-    "start:dev": "nodemon -r ts-node/register src/app.ts"
+    "start:dev": "nodemon -r ts-node/register src/app.ts",
+    "ts-typeorm": "node -r ts-node/register node_modules/typeorm/cli"
   },
   "devDependencies": {
     "nodemon": "^1.18.10",
