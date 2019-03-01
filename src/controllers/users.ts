@@ -48,7 +48,7 @@ export async function userCreateAction(req: Request, res: Response) {
   const { userRepository } = req.app.locals;
   const user = userRepository.create(req.body);
   await userRepository.save(user);
-  return res.json(user);
+  return res.json(await userRepository.findOne(user.id));
 }
 
 export async function userGetAction(req: Request, res: Response) {
