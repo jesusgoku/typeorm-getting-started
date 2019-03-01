@@ -1,54 +1,45 @@
-import { getConnection } from 'typeorm';
+import * as usersManager from '../managers/users';
 
 import User from '../entity/User';
 
 const resolvers = {
   Query: {
     users: async () => {
-      const connection = await getConnection();
-      const userRepository = connection.getRepository(User);
-      return await userRepository.find();
+      return await usersManager.getUsersList();
     },
 
     user: async (_, { id }) => {
-      const connection = await getConnection();
-      const userRepository = connection.getRepository(User);
-      return await userRepository.findOne(id);
+      return await usersManager.getUser(id);
     },
   },
 
   Mutation: {
     userAdd: async (_, { firstName, lastName, email }) => {
-      const connection = await getConnection();
-      const userRepository = connection.getRepository(User);
-      const user = userRepository.create({ firstName, lastName, email });
-      await userRepository.save(user);
-      return await userRepository.findOne(user.id);
+      return await usersManager.createUser({ firstName, lastName, email });
     },
 
     userUpdate: async (_, { id, firstName, lastName, email }) => {
-      const connection = await getConnection();
-      const userRepository = connection.getRepository(User);
-      const user = await userRepository.findOne(id);
+      const user = await usersManager.getUser(id);
 
       if (!user) {
         return user;
       }
 
-      userRepository.merge(user, { firstName, lastName, email });
-      return await userRepository.save(user);
+      return await usersManager.updateUser(user, {
+        firstName,
+        lastName,
+        email,
+      });
     },
 
     userDelete: async (_, { id }) => {
-      const connection = await getConnection();
-      const userRepository = connection.getRepository(User);
-      const user = await userRepository.findOne(id);
+      const user = await usersManager.getUser(id);
 
       if (!user) {
         return user;
       }
 
-      await userRepository.delete(user);
+      await usersManager.deleteUser(user);
       return user;
     },
   },

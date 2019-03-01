@@ -3,7 +3,6 @@ import * as controllers from '../controllers/users';
 
 const router = Router();
 
-router.use(controllers.userRepositorySetMiddleware);
 router.get('/', controllers.usersListAction);
 router.post('/', controllers.userCreateAction);
 router.get('/:id', controllers.userSetMiddleware, controllers.userGetAction);
