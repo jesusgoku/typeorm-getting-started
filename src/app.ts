@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import { createConnection } from 'typeorm';
 import retry from 'async-retry';
 import routes from './routes';
+import apolloServer from './graphql';
 
 async function getConnection() {
   try {
@@ -21,6 +22,7 @@ async function getConnection() {
 
   const app = express();
   app.use(bodyParser.json());
+  apolloServer.applyMiddleware({ app });
 
   app.use(routes);
 
